@@ -1,30 +1,29 @@
 import { Fragment, useEffect, useState } from "react";
-import { FiArrowUpRight, FiDownload, FiGithub, FiLinkedin } from "react-icons/fi";
+import { FiArrowDown, FiArrowRight } from "react-icons/fi";
 import Button from "../components/ui/Button";
-import { usePointerGlow } from "../hooks/usePointerGlow";
-import { person, about } from "../data/profile";
-import cv from "../assets/cv.pdf";
+import Note from "../components/ui/Note";
+import PatternFigure from "./PatternFigure";
+import { hero, observations, person } from "../data/profile";
 import "./Hero.css";
 
 function useLocalTime(timeZone) {
-  const format = () =>
-    new Intl.DateTimeFormat("en-GB", { timeZone, hour: "2-digit", minute: "2-digit" }).format(new Date());
-  const [time, setTime] = useState(format);
+  const fmt = () => new Intl.DateTimeFormat("en-GB", { timeZone, hour: "2-digit", minute: "2-digit" }).format(new Date());
+  const [t, setT] = useState(fmt);
   useEffect(() => {
-    const id = setInterval(() => setTime(format()), 15_000);
+    const id = setInterval(() => setT(fmt()), 15000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeZone]);
-  return time;
+  }, []);
+  return t;
 }
 
-/** Splits text into words that animate in one after another. */
-function Words({ text, start = 0, className }) {
+/** Splits a line into words that rise into place one after another. */
+function Rise({ text, start = 0 }) {
   const words = text.split(" ");
-  return words.map((word, i) => (
+  return words.map((w, i) => (
     <Fragment key={i}>
-      <span className={`word ${className ?? ""}`} style={{ "--w": start + i }}>
-        <span>{word}</span>
+      <span className="rise">
+        <span style={{ "--w": start + i }}>{w}</span>
       </span>
       {i < words.length - 1 && " "}
     </Fragment>
@@ -33,89 +32,81 @@ function Words({ text, start = 0, className }) {
 
 export default function Hero() {
   const time = useLocalTime(person.timezone);
-  const glow = usePointerGlow();
-
-  const specs = [
-    { k: "role", v: about.now[0].value },
-    { k: "focus", v: person.focus },
-    { k: "learning", v: about.now[1].value },
-    { k: "based", v: `${person.location} · ${time} IST` },
-  ];
+  const [n, setN] = useState(0);
 
   return (
-    <section className="hero" aria-labelledby="hero-title">
+    <section id="introduction" className="hero" aria-labelledby="hero-title">
       <div className="container hero__grid">
-        <div className="hero__copy">
-          <p className="hero__eyebrow mono">
-            <span className="hero__dot" aria-hidden="true" />
-            {person.role} · {person.location}
-          </p>
-
-          <h1 id="hero-title" className="hero__title">
-            <span className="hero__hello">
-              <Words text="Hi, I'm" />
-            </span>{" "}
-            <span className="hero__name">
-              <Words text={`${person.name}.`} start={2} className="serif" />
-            </span>
-          </h1>
-
-          <p className="hero__summary">
-            Building <em className="serif">practical</em> products at the intersection of software engineering,
-            backend systems, and AI.
-          </p>
-
-          <div className="hero__ctas">
-            <Button href="#contact" icon={<FiArrowUpRight />}>
-              Get in touch
-            </Button>
-            <Button href={cv} variant="secondary" download="Aditya-Kumar-Resume.pdf" icon={<FiDownload />}>
-              Résumé
-            </Button>
-            <span className="hero__socials">
-              <a href={person.links.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                <FiGithub />
-              </a>
-              <a href={person.links.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                <FiLinkedin />
-              </a>
-            </span>
+        <dl className="hero__file mono" aria-label="Quick facts">
+          <div>
+            <dt>File</dt>
+            <dd>A. Kumar</dd>
           </div>
+          <div>
+            <dt>Role</dt>
+            <dd>{person.role}</dd>
+          </div>
+          <div>
+            <dt>Location</dt>
+            <dd>{person.location}</dd>
+          </div>
+          <div>
+            <dt>Local time</dt>
+            <dd>{time} IST</dd>
+          </div>
+        </dl>
+
+        <h1 id="hero-title" className="hero__title">
+          <Rise text="Not everything is as it" />{" "}
+          <em>
+            <Rise text="appears." start={5} />
+          </em>
+        </h1>
+
+        <div className="hero__line" aria-hidden="true">
+          <span className="hero__line-mark" />
         </div>
 
-        <aside className="hero__card" onPointerMove={glow} aria-label="At a glance">
-          <div className="hero__card-head mono">
-            <span>~/aditya</span>
-            <span className="hero__card-file">profile.json</span>
-          </div>
-          <dl className="hero__specs mono">
-            <div className="hero__spec">
-              <dt>{"{"}</dt>
-            </div>
-            {specs.map((s, i) => (
-              <div key={s.k} className="hero__spec" style={{ "--i": i }}>
-                <dt>
-                  <span className="hero__key">"{s.k}"</span>:
-                </dt>
-                <dd>
-                  "{s.v}"{i < specs.length - 1 ? "," : ""}
-                </dd>
-              </div>
+        <div className="hero__body">
+          <p className="hero__intro">{hero.intro}</p>
+          <p className="hero__tagline mono">
+            {hero.tagline.map((t) => (
+              <span key={t}>{t}</span>
             ))}
-            <div className="hero__spec">
-              <dt>{"}"}</dt>
-            </div>
-          </dl>
-          <p className="hero__card-foot mono">
-            <span className="hero__pass">✓</span> 4 fields · no buzzwords
           </p>
-        </aside>
-      </div>
+          <div className="hero__ctas">
+            <Button href="#case-files" variant="primary" icon={<FiArrowRight />}>
+              Explore my work
+            </Button>
+            <Button href="#observations" variant="secondary" icon={<FiArrowDown />}>
+              Get to know me
+            </Button>
+          </div>
+          <Note>
+            No portrait here on purpose — this page uses typography and a single figure instead of stock imagery.
+            The clock above is real: it shows the current time where I am.
+          </Note>
+        </div>
 
-      <a href="#about" className="hero__scroll mono container">
-        <span className="hero__scroll-line" aria-hidden="true" />
-        Scroll · 01 About
-      </a>
+        <div className="hero__aside">
+          <PatternFigure />
+          <div className="hero__obs" aria-live="polite">
+            <p className="label">
+              Observation No. <span className="thread">{String(n + 1).padStart(3, "0")}</span>
+            </p>
+            <p key={n} className="hero__obs-text">
+              {observations[n]}
+            </p>
+            <button
+              type="button"
+              className="hero__obs-next mono"
+              onClick={() => setN((v) => (v + 1) % observations.length)}
+            >
+              Next observation <FiArrowRight aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

@@ -28,13 +28,14 @@ export default function Resume() {
   }, []);
 
   return (
-    <section className="resume-page" aria-labelledby="resume-title">
+    <section className="resume-page page" aria-labelledby="resume-title">
       <div className="container">
         <div className="resume-page__head">
           <div>
             <Button to="/" variant="ghost" size="sm">
               <FiArrowLeft aria-hidden="true" /> Back home
             </Button>
+            <p className="label resume-page__kicker">The paper trail</p>
             <h1 id="resume-title" className="resume-page__title">
               Résumé
             </h1>

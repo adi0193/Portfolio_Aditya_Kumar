@@ -1,81 +1,115 @@
-import { useState } from "react";
-import { FiPlus } from "react-icons/fi";
-import SectionHeader from "../components/ui/SectionHeader";
+import { useEffect, useRef } from "react";
+import SectionHead from "../components/ui/SectionHead";
 import Reveal from "../components/ui/Reveal";
+import Note from "../components/ui/Note";
 import ReviewNote from "../components/ui/ReviewNote";
 import { experience } from "../data/profile";
 import "./Experience.css";
 
+/** Draws the timeline thread as the reader scrolls through the section. */
+function useThreadProgress() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const p = Math.min(1, Math.max(0, (vh * 0.6 - r.top) / r.height));
+      el.style.setProperty("--progress", p.toFixed(3));
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+  return ref;
+}
+
 export default function Experience() {
-  const [openId, setOpenId] = useState(experience[0].id);
+  const lineRef = useThreadProgress();
 
   return (
-    <section id="experience" className="section experience" aria-labelledby="experience-title">
+    <section id="experience" className="section experience dark" aria-labelledby="exp-title">
       <div className="container">
-        <SectionHeader
-          id="experience-title"
-          index="02"
+        <SectionHead
+          id="exp-title"
+          no="03"
           label="Experience"
-          title="Where I've worked and studied."
-          intro="Mostly on the quality and delivery side of products so far, with full-stack development through an internship and my own projects."
+          title={
+            <>
+              Experience changes <em>perspective.</em>
+            </>
+          }
+          kicker="Where I've worked and studied — described as it was, including what kind of work it actually was."
         />
 
-        <ol className="timeline">
-          {experience.map((item, i) => {
-            const open = openId === item.id;
-            const panelId = `exp-${item.id}`;
-            return (
-              <Reveal as="li" key={item.id} delay={i * 70} className={`timeline__item${open ? " is-open" : ""}`}>
-                <span className="timeline__node" aria-hidden="true" />
-                <div className="timeline__period mono">{item.period}</div>
+        <ol ref={lineRef} className="tl">
+          {experience.map((e) => (
+            <Reveal as="li" key={e.id} className="tl__item">
+              <div className="tl__when">
+                <span className="tl__period">{e.period}</span>
+                <span className="label">{e.type}</span>
+              </div>
 
-                <div className="timeline__body">
-                  <h3>
-                    <button
-                      type="button"
-                      className="timeline__trigger"
-                      aria-expanded={open}
-                      aria-controls={panelId}
-                      onClick={() => setOpenId(open ? null : item.id)}
-                    >
-                      <span className="timeline__role">{item.role}</span>
-                      <span className="timeline__org">{item.org}</span>
-                      <span className="timeline__plus" aria-hidden="true">
-                        <FiPlus />
-                      </span>
-                    </button>
-                  </h3>
-                  <p className="timeline__type mono">{item.type}</p>
+              <span className="tl__knot" aria-hidden="true" />
 
-                  <div id={panelId} className="timeline__panel" role="region" aria-label={`${item.role} details`}>
-                    <div className="timeline__panel-inner">
-                      <p className="timeline__summary">{item.summary}</p>
-                      <ul className="timeline__points">
-                        {item.points.map((p) => (
-                          <li key={p}>{p}</li>
-                        ))}
-                      </ul>
-                      {item.learned && (
-                        <p className="timeline__learned">
-                          <span className="mono">What I took from it</span>
-                          {item.learned}
-                        </p>
-                      )}
-                      <ul className="timeline__tags" aria-label="Skills">
-                        {item.tags.map((t) => (
-                          <li key={t} className="chip">
-                            {t}
-                          </li>
-                        ))}
-                      </ul>
-                      <ReviewNote>{item.review}</ReviewNote>
-                    </div>
+              <div className="tl__body">
+                <h3 className="tl__role">{e.role}</h3>
+                <p className="tl__org">{e.org}</p>
+                <p className="tl__nature mono">{e.nature}</p>
+
+                <dl className="tl__facts">
+                  <div>
+                    <dt className="label">What I worked on</dt>
+                    <dd>{e.workedOn}</dd>
                   </div>
-                </div>
-              </Reveal>
-            );
-          })}
+                  <div>
+                    <dt className="label">What I contributed</dt>
+                    <dd>
+                      <ul className="tl__list">
+                        {e.contributed.map((c) => (
+                          <li key={c}>{c}</li>
+                        ))}
+                      </ul>
+                    </dd>
+                  </div>
+                  {e.problems && (
+                    <div>
+                      <dt className="label">Problems encountered</dt>
+                      <dd>{e.problems}</dd>
+                    </div>
+                  )}
+                  <div>
+                    <dt className="label">What I learned</dt>
+                    <dd className="tl__learned">{e.learned}</dd>
+                  </div>
+                </dl>
+
+                <ul className="tl__tags mono" aria-label="Skills involved">
+                  {e.tags.map((t) => (
+                    <li key={t}>{t}</li>
+                  ))}
+                </ul>
+                <ReviewNote>{e.review}</ReviewNote>
+              </div>
+            </Reveal>
+          ))}
         </ol>
+
+        <Note>
+          Roles are labelled by what they actually were. QA and client coordination are presented as exactly that —
+          not dressed up as software development.
+        </Note>
       </div>
     </section>
   );

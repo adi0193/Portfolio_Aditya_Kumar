@@ -1,39 +1,50 @@
 /* ------------------------------------------------------------------
-   Design tokens
-   Identity: warm ink background, paper-white type, one signal colour
-   (vermilion) used sparingly for state and emphasis. Editorial serif
-   italics for voice, grotesk for structure, mono for metadata.
+   Design system
+   A warm editorial palette: cream paper for reading, walnut and espresso
+   for contrast, burgundy as "the red thread" (state, emphasis, links),
+   brass and sage as quiet ornament only (they fail contrast as text on cream).
 ------------------------------------------------------------------- */
 :root {
-  --bg: #0d0d0b;
-  --bg-raised: #141411;
-  --surface: #191915;
-  --surface-2: #20201b;
-  --line: rgba(236, 231, 220, 0.09);
-  --line-strong: rgba(236, 231, 220, 0.18);
+  /* palette */
+  --espresso: #241b18;
+  --walnut: #352820;
+  --cream: #f2ebdd;
+  --paper: #e6dcc8;
+  --burgundy: #743f43;
+  --brass: #b39a6a;
+  --charcoal: #292a28;
+  --sage: #777d68;
 
-  --text: #ece7dc;
-  --text-2: #b4afa3;
-  --muted: #8a867c;
+  /* roles — light (cream) surfaces */
+  --bg: var(--cream);
+  --surface: #f7f2e8;
+  --surface-2: var(--paper);
+  --ink: var(--espresso);
+  --ink-2: #4a3c33;
+  --muted: #5e5148; /* 6.4:1 on cream */
+  --rule: rgba(36, 27, 24, 0.14);
+  --rule-strong: rgba(36, 27, 24, 0.32);
+  --thread: var(--burgundy);
 
-  --accent: #ff5b2e;
-  --accent-ink: #1a0b05;
-  --accent-soft: rgba(255, 91, 46, 0.12);
-  --ok: #a9c79a;
+  /* roles — dark (walnut/espresso) surfaces */
+  --dark-ink: var(--cream);
+  --dark-muted: #bfb3a0; /* 6.9:1 on walnut */
+  --dark-rule: rgba(242, 235, 221, 0.14);
+  --dark-thread: #c98a8a;
 
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  /* type */
+  --font-serif: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
-  /* type scale (fluid) */
-  --step--1: clamp(0.78rem, 0.76rem + 0.1vw, 0.84rem);
-  --step-0: clamp(0.98rem, 0.95rem + 0.15vw, 1.06rem);
-  --step-1: clamp(1.15rem, 1.08rem + 0.35vw, 1.35rem);
-  --step-2: clamp(1.4rem, 1.25rem + 0.75vw, 1.9rem);
-  --step-3: clamp(1.8rem, 1.5rem + 1.5vw, 2.8rem);
-  --step-4: clamp(2.6rem, 1.9rem + 3.6vw, 5.4rem);
+  --step--1: clamp(0.75rem, 0.73rem + 0.1vw, 0.8rem);
+  --step-0: clamp(1rem, 0.97rem + 0.15vw, 1.08rem);
+  --step-1: clamp(1.2rem, 1.1rem + 0.45vw, 1.45rem);
+  --step-2: clamp(1.55rem, 1.35rem + 1vw, 2.2rem);
+  --step-3: clamp(2.1rem, 1.6rem + 2.4vw, 3.6rem);
+  --step-4: clamp(2.9rem, 1.9rem + 5vw, 6.6rem);
 
+  /* space */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -42,19 +53,17 @@
   --space-6: 2rem;
   --space-7: 3rem;
   --space-8: 5rem;
-  --space-9: clamp(5rem, 4rem + 5vw, 9rem);
+  --space-9: clamp(5rem, 3.5rem + 6vw, 9.5rem);
 
-  --radius-s: 6px;
-  --radius-m: 10px;
-  --radius-l: 14px;
+  --radius: 3px;
+  --container: 1200px;
+  --gutter: clamp(1rem, 0.4rem + 3vw, 3rem);
+  --nav-h: 68px;
+  --rail: 220px;
 
-  --container: 1180px;
-  --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
-  --nav-h: 64px;
-
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --dur: 0.6s;
-  color-scheme: dark;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 0.8s;
+  color-scheme: light;
 }
 
 /* ------------------------------------------------------------------ */
@@ -72,13 +81,25 @@ html {
 body {
   margin: 0;
   background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-body);
+  color: var(--ink);
+  font-family: var(--font-sans);
   font-size: var(--step-0);
-  line-height: 1.6;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+}
+
+/* faint paper grain over the whole page */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.45  0 0 0 0 0.36  0 0 0 0 0.28  0 0 0 0.09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
 body.menu-open {
@@ -108,10 +129,10 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-display);
+  font-family: var(--font-serif);
   font-weight: 500;
-  line-height: 1.08;
-  letter-spacing: -0.02em;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
   margin: 0;
 }
 
@@ -119,36 +140,62 @@ p {
   margin: 0;
 }
 
-ul {
+ul,
+ol {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 ::selection {
-  background: var(--accent);
-  color: var(--accent-ink);
+  background: var(--burgundy);
+  color: var(--cream);
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--burgundy);
   outline-offset: 3px;
-  border-radius: 4px;
+}
+.dark :focus-visible {
+  outline-color: var(--dark-thread);
 }
 
-.skip-link {
-  position: absolute;
-  left: var(--space-4);
-  top: -100px;
-  z-index: 100;
-  padding: var(--space-2) var(--space-4);
-  background: var(--accent);
-  color: var(--accent-ink);
-  border-radius: var(--radius-s);
-  font-weight: 600;
+/* ------------------------------------------------------------------
+   Utilities
+------------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
 }
-.skip-link:focus {
-  top: var(--space-4);
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.04em;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.dark .label {
+  color: var(--dark-muted);
+}
+
+.italic {
+  font-style: italic;
+}
+
+.thread {
+  color: var(--thread);
+}
+.dark .thread {
+  color: var(--dark-thread);
 }
 
 .sr-only {
@@ -163,28 +210,97 @@ ul {
   border: 0;
 }
 
-.container {
-  width: 100%;
-  max-width: var(--container);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
+.skip-link {
+  position: absolute;
+  left: var(--space-4);
+  top: -100px;
+  z-index: 200;
+  padding: var(--space-2) var(--space-4);
+  background: var(--espresso);
+  color: var(--cream);
+  font-weight: 600;
+}
+.skip-link:focus {
+  top: var(--space-4);
 }
 
-.mono {
+/* Dark sections */
+.dark {
+  background: var(--walnut);
+  color: var(--dark-ink);
+  --rule: var(--dark-rule);
+  --rule-strong: rgba(242, 235, 221, 0.3);
+  --muted: var(--dark-muted);
+  --ink-2: #ddd3c3;
+  --thread: var(--dark-thread);
+  --surface: #3d2f26;
+  --surface-2: #45362c;
+  color-scheme: dark;
+}
+.dark--espresso {
+  background: var(--espresso);
+}
+
+.section {
+  position: relative;
+  padding-block: var(--space-9);
+  scroll-margin-top: calc(var(--nav-h) - 1px);
+}
+
+/* Underlined text link with a burgundy thread */
+.link {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 100% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  padding-bottom: 2px;
+  transition: background-size 0.4s var(--ease), color 0.2s;
+}
+.link:hover {
+  color: var(--thread);
+}
+
+/* ------------------------------------------------------------------
+   Observation mode
+   Elements with .obs are annotations; they only appear when the reader
+   switches on observation mode (html[data-observe="on"]).
+------------------------------------------------------------------- */
+.obs {
+  display: none;
+}
+html[data-observe="on"] .obs {
+  display: block;
+  animation: obs-in 0.6s var(--ease) both;
+}
+html[data-observe="on"] span.obs {
+  display: inline;
+}
+
+.obs-note {
+  position: relative;
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4) var(--space-3) var(--space-5);
+  border-left: 1px solid var(--thread);
   font-family: var(--font-mono);
-  font-size: var(--step--1);
-  letter-spacing: 0.02em;
+  font-size: 0.74rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+  background: color-mix(in srgb, var(--thread) 6%, transparent);
+  max-width: 52ch;
+}
+.obs-note::before {
+  content: "※";
+  position: absolute;
+  left: 0.45rem;
+  top: var(--space-3);
+  color: var(--thread);
 }
 
-.serif {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-}
-
-.accent {
-  color: var(--accent);
+@keyframes obs-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
 }
 
 /* ------------------------------------------------------------------
@@ -192,10 +308,10 @@ ul {
 ------------------------------------------------------------------- */
 .reveal {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(22px);
   transition:
-    opacity var(--dur) var(--ease-out),
-    transform var(--dur) var(--ease-out);
+    opacity var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
   transition-delay: var(--delay, 0ms);
 }
 .reveal.is-visible {
@@ -203,8 +319,19 @@ ul {
   transform: none;
 }
 
+/* Page-level fade between routes */
+.page {
+  animation: page-in 0.7s var(--ease) both;
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
 /* ------------------------------------------------------------------
-   Reduced motion: keep everything visible and static
+   Reduced motion
 ------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html {

@@ -6,11 +6,15 @@ brief you wrote. Nothing has been invented. The items below are missing or
 could not be verified. All content lives in `src/data/profile.js`.
 
 When you run `npm run dev`, every item marked with `review:` in that file shows
-up on the page as an orange **REVIEW** marker. These markers never appear in
+up on the page as a dashed burgundy **REVIEW** marker. These markers never appear in
 production builds.
 
 ## Needs your input
 
+- **Problems encountered:** the Experience section has a "Problems
+  encountered" slot for each role. It stays hidden until you fill in the
+  `problems` field in `src/data/profile.js`, since I don't know what problems
+  you actually faced and haven't guessed.
 - **Think Future Technologies:** add your start date and location. The
   responsibilities listed (application and API testing, healthcare workflows,
   AI chatbot evaluation, client coordination) come from your brief, so confirm
@@ -21,12 +25,13 @@ production builds.
 - **LinkedIn URL:** your résumé uses `linkedin.com/in/adi0193`, but the old
   site and your GitHub profile use `linkedin.com/in/aditya-kumar-929902217`.
   The site uses the second one. Confirm which is current.
-- **"Why I built it":** for Personality Test, Resume Maker and Splitwise, add
-  one honest sentence to the `why` field of each project. It renders
-  automatically once filled in.
+- **Case file problem statements:** for Resume Maker, Personality Test and
+  Splitwise, these describe what each app does, based on its code. If you
+  remember why you actually built them, replace the `problem` text with
+  that.
 - **Screenshots:** Personality Test and Splitwise have no screenshots, so they
   show architecture sketches drawn from their code. To use real screenshots
-  instead, add them to `src/assets/projects/` and set `image` on the project.
+  instead, add them to `src/assets/projects/` and set `image` on the case in `cases`.
 
 ## Projects not shown
 
