@@ -1,0 +1,191 @@
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.timeline__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+  gap: var(--space-7);
+  padding: var(--space-5) 0;
+  border-top: 1px solid var(--line);
+}
+.timeline__item:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+/* vertical rail + node between the period and the content */
+.timeline__node {
+  position: absolute;
+  left: calc(220px + var(--space-7) / 2);
+  top: calc(var(--space-5) + 0.55em);
+  width: 9px;
+  height: 9px;
+  margin-left: -4.5px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s var(--ease-out);
+}
+.timeline__item.is-open .timeline__node {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.25);
+}
+
+.timeline__period {
+  color: var(--muted);
+  padding-top: 0.35em;
+}
+.timeline__item.is-open .timeline__period {
+  color: var(--text);
+}
+
+.timeline__trigger {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "role plus"
+    "org plus";
+  text-align: left;
+  gap: 0.15rem var(--space-4);
+  font-family: var(--font-display);
+}
+
+.timeline__role {
+  grid-area: role;
+  font-size: var(--step-2);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+.timeline__org {
+  grid-area: org;
+  font-size: var(--step-1);
+  color: var(--text-2);
+  font-weight: 400;
+}
+.timeline__trigger:hover .timeline__role {
+  color: var(--accent);
+}
+
+.timeline__plus {
+  grid-area: plus;
+  align-self: center;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  transition: transform 0.4s var(--ease-out), background-color 0.3s, color 0.3s;
+}
+.timeline__item.is-open .timeline__plus {
+  transform: rotate(45deg);
+  background: var(--text);
+  color: var(--bg);
+}
+
+.timeline__type {
+  color: var(--muted);
+  margin-top: var(--space-2);
+}
+
+/* animated expand using grid rows */
+.timeline__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s var(--ease-out);
+}
+.timeline__item.is-open .timeline__panel {
+  grid-template-rows: 1fr;
+}
+.timeline__panel-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+.timeline__item:not(.is-open) .timeline__panel-inner {
+  visibility: hidden;
+  transition: visibility 0s 0.5s;
+}
+
+.timeline__summary {
+  margin-top: var(--space-5);
+  color: var(--text);
+  max-width: 62ch;
+}
+
+.timeline__points {
+  margin-top: var(--space-4);
+  display: grid;
+  gap: var(--space-2);
+  color: var(--text-2);
+  max-width: 66ch;
+}
+.timeline__points li {
+  position: relative;
+  padding-left: 1.4em;
+}
+.timeline__points li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+
+.timeline__learned {
+  margin-top: var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border-left: 2px solid var(--accent);
+  background: var(--bg-raised);
+  border-radius: 0 var(--radius-m) var(--radius-m) 0;
+  max-width: 62ch;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.45;
+}
+.timeline__learned .mono {
+  display: block;
+  font-style: normal;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: var(--space-1);
+}
+
+.timeline__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-5) 0 var(--space-2);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.28rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--text-2);
+  background: var(--bg-raised);
+}
+
+@media (max-width: 760px) {
+  .timeline__item {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+    padding-left: var(--space-5);
+  }
+  .timeline__node {
+    left: 0;
+    margin-left: 0;
+    top: calc(var(--space-5) + 0.35em);
+  }
+}

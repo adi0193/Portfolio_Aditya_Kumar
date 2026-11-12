@@ -1,54 +1,49 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
-import Preloader from "./components/Pre";
-import Navbar from "./components/Navbar";
-import Home from "./components/Home/Home";
-import About from "./components/About/About";
-import Projects from "./components/Projects/Projects";
-import Footer from "./components/Footer";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate
-} from "react-router-dom";
-import ScrollToTop from "./components/ScrollToTop";
-import "./style.css";
-import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { lazy, Suspense, useEffect } from "react";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import Nav from "./components/layout/Nav";
+import Footer from "./components/layout/Footer";
+import Background from "./components/layout/Background";
+import Home from "./pages/Home";
 
-// The resume page pulls in react-pdf (large), so load it only when visited
-const Resume = lazy(() => import("./components/Resume/ResumeNew"));
+// The résumé page pulls in react-pdf (large), so load it only when visited
+const Resume = lazy(() => import("./pages/Resume"));
 
-function App() {
-  const [load, updateLoad] = useState(true);
-
+/** Scroll to #hash targets on navigation, or to the top on page change. */
+function ScrollManager() {
+  const { pathname, hash, key } = useLocation();
   useEffect(() => {
-    const timer = setTimeout(() => {
-      updateLoad(false);
-    }, 1200);
+    if (hash) {
+      // Wait a frame so the target section has rendered
+      requestAnimationFrame(() => document.getElementById(hash.slice(1))?.scrollIntoView());
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash, key]);
+  return null;
+}
 
-    return () => clearTimeout(timer);
-  }, []);
-
+export default function App() {
   return (
-    <Router>
-      <Preloader load={load} />
-      <div className="App" id={load ? "no-scroll" : "scroll"}>
-        <Navbar />
-        <ScrollToTop />
+    <BrowserRouter>
+      <a href="#main" className="skip-link">
+        Skip to content
+      </a>
+      <Background />
+      <ScrollManager />
+      <Nav />
+      <main id="main">
         <Suspense fallback={null}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/project" element={<Projects />} />
-            <Route path="/about" element={<About />} />
             <Route path="/resume" element={<Resume />} />
-            <Route path="*" element={<Navigate to="/"/>} />
+            {/* Old routes from the previous version of the site */}
+            <Route path="/about" element={<Navigate to="/#about" replace />} />
+            <Route path="/project" element={<Navigate to="/#work" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>
-        <Footer />
-      </div>
-    </Router>
+      </main>
+      <Footer />
+    </BrowserRouter>
   );
 }
-
-export default App;

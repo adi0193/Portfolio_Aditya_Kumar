@@ -1,0 +1,47 @@
+.resume-page {
+  padding-top: calc(var(--nav-h) + var(--space-7));
+  padding-bottom: var(--space-9);
+}
+
+.resume-page__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  margin-bottom: var(--space-6);
+}
+
+.resume-page__title {
+  font-size: var(--step-4);
+  margin-top: var(--space-4);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.resume-page__frame {
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.resume-page__sheet {
+  margin-bottom: var(--space-5);
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.9);
+}
+.resume-page__sheet canvas {
+  max-width: 100%;
+  height: auto !important;
+}
+
+.resume-page__status {
+  padding: var(--space-8) 0;
+  text-align: center;
+  color: var(--muted);
+}
+.resume-page__status a {
+  color: var(--accent);
+  text-decoration: underline;
+}

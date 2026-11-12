@@ -1,0 +1,41 @@
+.activity {
+  padding-bottom: var(--space-9);
+}
+
+.activity__head {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  align-items: baseline;
+  margin-bottom: var(--space-4);
+}
+
+.activity__title {
+  color: var(--muted);
+  text-transform: uppercase;
+  font-weight: 400;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.02em;
+}
+
+.activity__link {
+  color: var(--text-2);
+}
+.activity__link:hover {
+  color: var(--accent);
+}
+
+.activity__calendar {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-l);
+  background: var(--bg-raised);
+  padding: var(--space-5);
+  overflow-x: auto;
+  color: var(--text-2);
+  font-family: var(--font-mono);
+}
+
+.activity__placeholder {
+  height: 150px;
+}

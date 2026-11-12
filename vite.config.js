@@ -6,5 +6,7 @@ export default defineConfig({
   build: {
     // Keep CRA's output folder so existing Netlify settings keep working
     outDir: "build",
+    // The résumé chunk (react-pdf) is lazy-loaded, so its size is acceptable
+    chunkSizeWarningLimit: 700,
   },
 });
