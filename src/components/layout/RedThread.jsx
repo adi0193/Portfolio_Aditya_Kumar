@@ -7,7 +7,7 @@ import "./RedThread.css";
 const ids = navItems.map((i) => i.id);
 
 /**
- * A thin burgundy thread down the left edge that follows reading progress,
+ * A thin oxblood thread down the left edge that follows reading progress,
  * with a knot for every section. Desktop only; purely navigational sugar —
  * the main nav remains the accessible way to move around.
  */

@@ -82,6 +82,7 @@ export default function Contact() {
           id="contact-title"
           no="05"
           label="Contact"
+          variant="split"
           title={
             <>
               Every good conversation starts with a <em>question.</em>

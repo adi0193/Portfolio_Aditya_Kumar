@@ -37,6 +37,7 @@ function useThreadProgress() {
 
 export default function Experience() {
   const lineRef = useThreadProgress();
+  const roman = ["I", "II", "III", "IV", "V", "VI"];
 
   return (
     <section id="experience" className="section experience dark" aria-labelledby="exp-title">
@@ -45,23 +46,25 @@ export default function Experience() {
           id="exp-title"
           no="03"
           label="Experience"
+          aside="Most recent first. Each role is described as the work it actually was."
           title={
             <>
               Experience changes <em>perspective.</em>
             </>
           }
-          kicker="Where I've worked and studied — described as it was, including what kind of work it actually was."
         />
 
         <ol ref={lineRef} className="tl">
-          {experience.map((e) => (
+          {experience.map((e, i) => (
             <Reveal as="li" key={e.id} className="tl__item">
               <div className="tl__when">
                 <span className="tl__period">{e.period}</span>
                 <span className="label">{e.type}</span>
               </div>
 
-              <span className="tl__knot" aria-hidden="true" />
+              <span className="tl__knot" aria-hidden="true">
+                {roman[i]}
+              </span>
 
               <div className="tl__body">
                 <h3 className="tl__role">{e.role}</h3>
@@ -95,11 +98,10 @@ export default function Experience() {
                   </div>
                 </dl>
 
-                <ul className="tl__tags mono" aria-label="Skills involved">
-                  {e.tags.map((t) => (
-                    <li key={t}>{t}</li>
-                  ))}
-                </ul>
+                <p className="tl__tags mono">
+                  <span className="sr-only">Skills involved: </span>
+                  {e.tags.join(" / ")}
+                </p>
                 <ReviewNote>{e.review}</ReviewNote>
               </div>
             </Reveal>

@@ -43,7 +43,7 @@
   font-size: 4.4em;
   line-height: 0.8;
   padding: 0.06em 0.1em 0 0;
-  color: var(--burgundy);
+  color: var(--oxblood);
 }
 
 .about__margin {
@@ -57,7 +57,7 @@
   margin: 0;
   position: relative;
   padding-top: var(--space-5);
-  border-top: 1px solid var(--burgundy);
+  border-top: 1px solid var(--oxblood);
 }
 .about__quote::before {
   content: "“";
@@ -67,7 +67,7 @@
   font-family: var(--font-serif);
   font-size: 4rem;
   line-height: 1;
-  color: var(--brass);
+  color: var(--bronze);
 }
 .about__quote p {
   font-family: var(--font-serif);
@@ -101,7 +101,7 @@
 }
 .about__record li:hover {
   padding-left: var(--space-3);
-  background: linear-gradient(90deg, rgba(116, 63, 67, 0.06), transparent 60%);
+  background: linear-gradient(90deg, rgba(120, 63, 70, 0.06), transparent 60%);
 }
 .about__record-title {
   font-family: var(--font-serif);

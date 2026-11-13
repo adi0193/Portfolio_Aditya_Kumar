@@ -28,6 +28,7 @@ export default function Toolkit() {
         <SectionHead
           id="toolkit-title"
           no="04"
+          variant="split"
           label="Toolkit"
           title={
             <>
@@ -38,7 +39,8 @@ export default function Toolkit() {
         />
 
         <Reveal className="legend" role="group" aria-label="Highlight by experience">
-          {Object.entries(skillStatus).map(([key, s]) => (
+          <span className="label legend__key">Key</span>
+          {Object.entries(skillStatus).map(([key, st]) => (
             <button
               key={key}
               type="button"
@@ -47,28 +49,29 @@ export default function Toolkit() {
               onClick={() => setFocus(focus === key ? null : key)}
             >
               <span className={`mark mark--${key}`} aria-hidden="true">
-                {s.mark}
+                {st.mark}
               </span>
-              {s.label}
-              <span className="legend__count mono">{count(key)}</span>
+              {st.label}
+              <span className="legend__count mono">({count(key)})</span>
             </button>
           ))}
         </Reveal>
 
-        <div className={`catalog${focus ? ` catalog--${focus}` : ""}`}>
+        <div className={`index${focus ? ` index--${focus}` : ""}`}>
           {toolkit.map((d, i) => (
-            <Reveal as="article" key={d.group} delay={(i % 3) * 90} className="card" aria-labelledby={`drawer-${d.drawer}`}>
-              <header className="card__holder">
-                <span className="card__drawer mono">{d.drawer}</span>
-                <h3 id={`drawer-${d.drawer}`} className="card__group">
-                  {d.group}
-                </h3>
-              </header>
-              <ul className="card__lines">
+            <Reveal as="section" key={d.group} delay={(i % 3) * 80} className="index__group" aria-labelledby={`drawer-${d.drawer}`}>
+              <h3 id={`drawer-${d.drawer}`} className="index__head">
+                <span className="index__letter mono">{d.drawer}.</span>
+                {d.group}
+              </h3>
+              <ul>
                 {d.items.map((item) => (
-                  <li key={item.name} className={`card__line is-${item.status}`}>
-                    <span className="card__name">{item.name}</span>
-                    {item.note && <span className="card__note mono">{item.note}</span>}
+                  <li key={item.name} className={`index__entry is-${item.status}`}>
+                    <span className="index__name">
+                      {item.name}
+                      {item.note && <span className="index__note mono"> — {item.note}</span>}
+                    </span>
+                    <span className="index__leader" aria-hidden="true" />
                     <span className={`mark mark--${item.status}`} title={skillStatus[item.status].label}>
                       <span aria-hidden="true">{skillStatus[item.status].mark}</span>
                       <span className="sr-only">{skillStatus[item.status].label}</span>
@@ -99,7 +102,7 @@ export default function Toolkit() {
                   username="adi0193"
                   throwOnError
                   colorScheme="light"
-                  theme={{ light: ["#e2d6bf", "#743f43"] }}
+                  theme={{ light: ["#d9d4c7", "#783f46"] }}
                   blockSize={11}
                   blockMargin={4}
                   blockRadius={1}

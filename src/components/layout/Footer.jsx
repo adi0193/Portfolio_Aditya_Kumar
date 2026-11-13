@@ -9,7 +9,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="footer dark dark--espresso">
+    <footer className="footer dark dark--olive">
       <div className="container">
         <p className="footer__closing">
           <span className="label">The final observation</span>
@@ -59,7 +59,7 @@ export default function Footer() {
           <span>
             © {year} {person.name}
           </span>
-          <span>Set in Cormorant Garamond, Inter &amp; IBM Plex Mono. Built with React.</span>
+          <span>Set in Instrument Serif, Manrope &amp; IBM Plex Mono. Built with React.</span>
         </div>
         <Note>
           No analytics, no trackers, no cookies. The only thing this site remembers is whether you switched on

@@ -41,7 +41,7 @@
   transition: color 0.25s;
 }
 .footer__aside:hover {
-  color: var(--cream);
+  color: var(--ivory);
 }
 
 .footer__base {

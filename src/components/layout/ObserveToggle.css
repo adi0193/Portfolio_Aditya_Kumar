@@ -33,10 +33,10 @@
   transition: transform 0.35s var(--ease), background-color 0.3s;
 }
 .observe.is-on .observe__track {
-  border-color: var(--burgundy);
-  background: var(--burgundy);
+  border-color: var(--oxblood);
+  background: var(--oxblood);
 }
 .observe.is-on .observe__knob {
   transform: translateX(14px);
-  background: var(--cream);
+  background: var(--ivory);
 }

@@ -30,7 +30,7 @@ export default function Cursor() {
       x = e.clientX;
       y = e.clientY;
       el.classList.add("is-on");
-      const target = e.target.closest?.("a, button, [role='switch'], input, textarea, .case");
+      const target = e.target.closest?.("a, button, [role='switch'], input, textarea, .spread");
       el.classList.toggle("is-hover", !!target);
     };
     const leave = () => el.classList.remove("is-on");
