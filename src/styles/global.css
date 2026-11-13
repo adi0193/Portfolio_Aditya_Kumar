@@ -1,44 +1,46 @@
 /* ------------------------------------------------------------------
-   Design system
-   A warm editorial palette: cream paper for reading, walnut and espresso
-   for contrast, burgundy as "the red thread" (state, emphasis, links),
-   brass and sage as quiet ornament only (they fail contrast as text on cream).
+   Design system — "the private office"
+   Aged ivory paper, forest-charcoal ink, warm stone for the case-file
+   room, smoky olive surfaces in the dark sections. Muted oxblood is the
+   one accent (state, emphasis, the thread); antique bronze is reserved
+   for hairlines and ornaments. Contrast notes beside each text colour.
 ------------------------------------------------------------------- */
 :root {
   /* palette */
-  --espresso: #241b18;
-  --walnut: #352820;
-  --cream: #f2ebdd;
-  --paper: #e6dcc8;
-  --burgundy: #743f43;
-  --brass: #b39a6a;
-  --charcoal: #292a28;
-  --sage: #777d68;
+  --charcoal: #202522;
+  --olive: #343d35;
+  --sage: #747767;
+  --ivory: #e8e4d9;
+  --stone: #c7c1b3;
+  --oxblood: #783f46;
+  --bronze: #a58b62;
 
-  /* roles — light (cream) surfaces */
-  --bg: var(--cream);
-  --surface: #f7f2e8;
-  --surface-2: var(--paper);
-  --ink: var(--espresso);
-  --ink-2: #4a3c33;
-  --muted: #5e5148; /* 6.4:1 on cream */
-  --rule: rgba(36, 27, 24, 0.14);
-  --rule-strong: rgba(36, 27, 24, 0.32);
-  --thread: var(--burgundy);
+  /* roles — light (ivory) surfaces */
+  --bg: var(--ivory);
+  --surface: #efece4;
+  --surface-2: #dedace;
+  --ink: var(--charcoal); /* 12.3:1 */
+  --ink-2: #3a413b; /* 9.4:1 */
+  --muted: #4e544b; /* 6.1:1 */
+  --rule: rgba(52, 61, 53, 0.18);
+  --rule-strong: rgba(52, 61, 53, 0.42);
+  --hair: var(--bronze); /* decorative only: 2.6:1 */
+  --thread: var(--oxblood); /* 6.4:1 */
 
-  /* roles — dark (walnut/espresso) surfaces */
-  --dark-ink: var(--cream);
-  --dark-muted: #bfb3a0; /* 6.9:1 on walnut */
-  --dark-rule: rgba(242, 235, 221, 0.14);
-  --dark-thread: #c98a8a;
+  /* roles — dark (charcoal) surfaces */
+  --dark-ink: var(--ivory); /* 12.3:1 */
+  --dark-muted: #a9a597; /* 6.3:1 */
+  --dark-rule: rgba(232, 228, 217, 0.14);
+  --dark-thread: #c4a87c; /* bronze, lightened for text: 6.9:1 on charcoal, 5:1 on olive */
 
-  /* type */
-  --font-serif: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* type — three families only */
+  --font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-serif: var(--font-display);
 
-  --step--1: clamp(0.75rem, 0.73rem + 0.1vw, 0.8rem);
-  --step-0: clamp(1rem, 0.97rem + 0.15vw, 1.08rem);
+  --step--1: clamp(0.72rem, 0.7rem + 0.1vw, 0.78rem);
+  --step-0: clamp(0.98rem, 0.95rem + 0.15vw, 1.05rem);
   --step-1: clamp(1.2rem, 1.1rem + 0.45vw, 1.45rem);
   --step-2: clamp(1.55rem, 1.35rem + 1vw, 2.2rem);
   --step-3: clamp(2.1rem, 1.6rem + 2.4vw, 3.6rem);
@@ -55,11 +57,11 @@
   --space-8: 5rem;
   --space-9: clamp(5rem, 3.5rem + 6vw, 9.5rem);
 
-  --radius: 3px;
-  --container: 1200px;
+  --radius: 0;
+  --container: 1240px;
   --gutter: clamp(1rem, 0.4rem + 3vw, 3rem);
-  --nav-h: 68px;
-  --rail: 220px;
+  --nav-h: 64px;
+  --rail: 200px;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --dur: 0.8s;
@@ -84,7 +86,8 @@ body {
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: var(--step-0);
-  line-height: 1.65;
+  line-height: 1.7;
+  font-feature-settings: "ss01", "cv11";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
@@ -97,9 +100,9 @@ body::before {
   inset: 0;
   z-index: 100;
   pointer-events: none;
-  opacity: 0.35;
+  opacity: 0.22;
   mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.45  0 0 0 0 0.36  0 0 0 0 0.28  0 0 0 0.09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.2  0 0 0 0 0.24  0 0 0 0 0.21  0 0 0 0.09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
 body.menu-open {
@@ -129,10 +132,10 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-serif);
-  font-weight: 500;
-  line-height: 1.02;
-  letter-spacing: -0.015em;
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.01em;
   margin: 0;
 }
 
@@ -148,12 +151,12 @@ ol {
 }
 
 ::selection {
-  background: var(--burgundy);
-  color: var(--cream);
+  background: var(--oxblood);
+  color: var(--ivory);
 }
 
 :focus-visible {
-  outline: 2px solid var(--burgundy);
+  outline: 2px solid var(--oxblood);
   outline-offset: 3px;
 }
 .dark :focus-visible {
@@ -216,29 +219,44 @@ ol {
   top: -100px;
   z-index: 200;
   padding: var(--space-2) var(--space-4);
-  background: var(--espresso);
-  color: var(--cream);
+  background: var(--charcoal);
+  color: var(--ivory);
   font-weight: 600;
 }
 .skip-link:focus {
   top: var(--space-4);
 }
 
-/* Dark sections */
+/* Dark sections: forest charcoal with smoky-olive secondary surfaces */
 .dark {
-  background: var(--walnut);
+  background: var(--charcoal);
   color: var(--dark-ink);
   --rule: var(--dark-rule);
-  --rule-strong: rgba(242, 235, 221, 0.3);
+  --rule-strong: rgba(232, 228, 217, 0.3);
   --muted: var(--dark-muted);
-  --ink-2: #ddd3c3;
+  --ink: var(--ivory);
+  --ink-2: #d6d2c6;
   --thread: var(--dark-thread);
-  --surface: #3d2f26;
-  --surface-2: #45362c;
+  --hair: var(--bronze);
+  --surface: var(--olive);
+  --surface-2: #3d473f;
   color-scheme: dark;
 }
-.dark--espresso {
-  background: var(--espresso);
+
+.dark--olive {
+  background: var(--olive);
+  --surface: #3d473f;
+}
+
+/* The case-file room: warm stone */
+.stone {
+  background: var(--stone);
+  --surface: #d4cfc2;
+  --surface-2: #bdb6a7;
+  --muted: var(--olive); /* 6.3:1 on stone */
+  --ink-2: #2b322c;
+  --rule: rgba(32, 37, 34, 0.18);
+  --rule-strong: rgba(32, 37, 34, 0.4);
 }
 
 .section {
@@ -247,7 +265,7 @@ ol {
   scroll-margin-top: calc(var(--nav-h) - 1px);
 }
 
-/* Underlined text link with a burgundy thread */
+/* Underlined text link; turns oxblood on hover */
 .link {
   background-image: linear-gradient(currentColor, currentColor);
   background-size: 100% 1px;

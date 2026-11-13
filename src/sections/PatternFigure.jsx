@@ -13,7 +13,7 @@ const PATH = [
 ];
 
 /**
- * A field of dots with one burgundy thread connecting a few of them —
+ * A field of dots with one oxblood thread connecting a few of them —
  * signal found in noise. Dots near the pointer lift slightly.
  */
 export default function PatternFigure() {

@@ -6,7 +6,7 @@
   width: 30px;
   height: 30px;
   margin: -15px 0 0 -15px;
-  border: 1px solid var(--burgundy);
+  border: 1px solid var(--oxblood);
   border-radius: 50%;
   pointer-events: none;
   opacity: 0;
@@ -25,5 +25,5 @@
   width: 52px;
   height: 52px;
   margin: -26px 0 0 -26px;
-  background: rgba(116, 63, 67, 0.08);
+  background: rgba(120, 63, 70, 0.08);
 }

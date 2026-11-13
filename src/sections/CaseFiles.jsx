@@ -8,40 +8,54 @@ import CaseDialog from "./CaseDialog";
 import { cases, minorCases } from "../data/profile";
 import "./CaseFiles.css";
 
-function CaseCard({ item, index, onOpen }) {
+function CaseSpread({ item, index, onOpen }) {
+  const flip = index % 2 === 1;
   return (
-    <Reveal as="article" delay={(index % 2) * 120} className={`case case--${index % 2 ? "even" : "odd"}`}>
-      <p className="case__tab label">
-        Case file <span className="thread">{item.no}</span>
-      </p>
-      <div className="case__sheet">
-        <div className="case__meta mono">
-          <span>{item.kind}</span>
-          <span>{item.year}</span>
-        </div>
-        <h3 className="case__title">{item.title}</h3>
-        <p className="case__summary">{item.summary}</p>
+    <Reveal as="article" className={`spread${flip ? " spread--flip" : ""}`} aria-labelledby={`case-${item.id}`}>
+      <div className="spread__index mono">
+        <span className="thread">No. {item.no}</span>
+        <span>{item.year}</span>
+        <span>{item.kind}</span>
+      </div>
 
-        <div className="case__evidence" aria-hidden="true">
+      <figure className="spread__figure">
+        <div className="spread__frame" aria-hidden="true" />
+        <div className="spread__exhibit">
           {item.image ? (
-            <img src={item.image} alt="" loading="lazy" width="1200" height="675" />
+            <img src={item.image} alt={`Screenshot of ${item.title}`} loading="lazy" width="1200" height="675" />
           ) : (
-            <Diagram {...item.diagram} title="" />
+            <Diagram {...item.diagram} title={`Architecture of ${item.title}`} />
           )}
         </div>
+        <figcaption className="label">
+          Exhibit {item.no}-A · {item.image ? "the live application" : "architecture, drawn from the code"}
+        </figcaption>
+      </figure>
 
-        <p className="case__tools mono">{item.tools.slice(0, 5).join(" · ")}</p>
+      <div className="spread__text">
+        <h3 id={`case-${item.id}`} className="spread__title">
+          {item.title}
+        </h3>
+        <p className="spread__summary">{item.summary}</p>
 
-        <button type="button" className="case__open mono" onClick={() => onOpen(item)}>
-          Open the file <FiArrowRight aria-hidden="true" />
-          <span className="sr-only">: {item.title}</span>
-        </button>
-
-        {/* The slip that slides out on hover (always visible in observation mode) */}
-        <p className="case__slip">
+        <p className="spread__obs">
           <span className="label">Observed</span>
           {item.observation}
         </p>
+
+        <p className="spread__tools mono">{item.tools.slice(0, 6).join(" / ")}</p>
+
+        <div className="spread__actions">
+          <button type="button" className="spread__open" onClick={() => onOpen(item)}>
+            Read the case file <FiArrowRight aria-hidden="true" />
+            <span className="sr-only">: {item.title}</span>
+          </button>
+          {item.demo && (
+            <a className="link mono spread__ext" href={item.demo} target="_blank" rel="noopener noreferrer">
+              Live<span className="sr-only"> demo of {item.title}</span> <FiArrowUpRight aria-hidden="true" />
+            </a>
+          )}
+        </div>
       </div>
     </Reveal>
   );
@@ -51,23 +65,24 @@ export default function CaseFiles() {
   const [open, setOpen] = useState(null);
 
   return (
-    <section id="case-files" className="section cases" aria-labelledby="cases-title">
+    <section id="case-files" className="section cases stone" aria-labelledby="cases-title">
       <div className="container">
         <SectionHead
           id="cases-title"
           no="02"
+          variant="numeral"
           label="Case files"
           title={
             <>
               The work, <em>documented.</em>
             </>
           }
-          kicker="Each project, written up like an investigation: the problem, the approach, the tools and the evidence. Hover a file for one detail worth noticing; open it for the whole story."
+          kicker="Each project, written up like an investigation: the problem, the approach, the tools and the evidence — with one detail worth noticing in the margin."
         />
 
-        <div className="cases__grid">
+        <div className="spreads">
           {cases.map((c, i) => (
-            <CaseCard key={c.id} item={c} index={i} onOpen={setOpen} />
+            <CaseSpread key={c.id} item={c} index={i} onOpen={setOpen} />
           ))}
         </div>
 
@@ -77,7 +92,7 @@ export default function CaseFiles() {
         </Note>
 
         <Reveal className="minor">
-          <h3 className="label">Minor cases · early work</h3>
+          <h3 className="label minor__head">Minor cases <span aria-hidden="true">—</span> early work, 2023</h3>
           <ol className="minor__list">
             {minorCases.map((m) => (
               <li key={m.no} className="minor__row">

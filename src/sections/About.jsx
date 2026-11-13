@@ -12,6 +12,7 @@ export default function About() {
           id="about-title"
           no="01"
           label="Observations"
+          aside="Filed under: how things work, and why."
           title={
             <>
               Every detail tells a <em>story.</em>

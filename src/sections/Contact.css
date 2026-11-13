@@ -28,7 +28,7 @@
   font-size: 0.68rem;
 }
 .contact__copy:hover {
-  color: var(--cream);
+  color: var(--ivory);
 }
 .contact__else {
   margin-top: var(--space-7);
@@ -74,7 +74,7 @@
   border-bottom: 1px solid var(--rule-strong);
   border-radius: 0;
   background: transparent;
-  color: var(--cream);
+  color: var(--ivory);
   font-family: var(--font-serif);
   font-size: 1.3rem;
   line-height: 1.4;

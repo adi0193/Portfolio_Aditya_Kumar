@@ -51,24 +51,24 @@
 }
 
 .dark .btn {
-  border-color: var(--cream);
+  border-color: var(--ivory);
 }
 .dark .btn--primary {
-  background: var(--cream);
-  color: var(--walnut);
+  background: var(--ivory);
+  color: var(--charcoal);
 }
 .dark .btn--primary::before {
   background: var(--dark-thread);
 }
 .dark .btn--primary:hover {
-  color: var(--espresso);
+  color: var(--charcoal);
   border-color: var(--dark-thread);
 }
 .dark .btn--secondary::before {
-  background: var(--cream);
+  background: var(--ivory);
 }
 .dark .btn--secondary:hover {
-  color: var(--walnut);
+  color: var(--charcoal);
 }
 
 .btn--ghost {

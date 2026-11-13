@@ -3,9 +3,11 @@
 Personal site: https://portfolio-aditya-kumar.vercel.app
 
 Built with React 19, Vite and React Router, with no UI framework. The styling
-is a small hand-written design system using CSS custom properties: a warm
-editorial palette (cream, walnut, espresso, burgundy), Cormorant Garamond for
-headings, Inter for body text and IBM Plex Mono for metadata.
+is a small hand-written design system using CSS custom properties: aged ivory
+and warm stone for paper, forest charcoal and smoky olive for the dark
+sections, muted oxblood as the single accent, and antique bronze for hairlines.
+Type is set in Instrument Serif (display), Manrope (body) and IBM Plex Mono
+(metadata).
 
 ## Run locally
 
@@ -55,7 +57,7 @@ src/
 
 - **Observation mode:** the switch in the nav reveals annotations (`.obs`
   elements, written with `<Note>`) about design and engineering decisions.
-- **The red thread:** a burgundy line down the left edge on wide screens
+- **The red thread:** an oxblood line down the left edge on wide screens
   tracks reading progress, with a knot for each section.
 - **Observation cards:** the hero card cycles through short observations,
   and the small italic line in the footer changes when clicked.

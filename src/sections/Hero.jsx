@@ -36,6 +36,9 @@ export default function Hero() {
 
   return (
     <section id="introduction" className="hero" aria-labelledby="hero-title">
+      <p className="hero__running" aria-hidden="true">
+        A. Kumar — Software engineer — India
+      </p>
       <div className="container hero__grid">
         <dl className="hero__file mono" aria-label="Quick facts">
           <div>
