@@ -1,21 +1,19 @@
 import Hero from "../sections/Hero";
 import About from "../sections/About";
+import CaseFiles from "../sections/CaseFiles";
 import Experience from "../sections/Experience";
-import Projects from "../sections/Projects";
-import Skills from "../sections/Skills";
-import Activity from "../sections/Activity";
+import Toolkit from "../sections/Toolkit";
 import Contact from "../sections/Contact";
 
 export default function Home() {
   return (
-    <>
+    <div className="page">
       <Hero />
       <About />
+      <CaseFiles />
       <Experience />
-      <Projects />
-      <Skills />
-      <Activity />
+      <Toolkit />
       <Contact />
-    </>
+    </div>
   );
 }

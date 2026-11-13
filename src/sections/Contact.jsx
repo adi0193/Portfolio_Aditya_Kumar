@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { FiArrowUpRight, FiCheck, FiCopy } from "react-icons/fi";
-import SectionHeader from "../components/ui/SectionHeader";
+import { Link } from "react-router-dom";
+import { FiArrowRight, FiArrowUpRight, FiCheck, FiCopy } from "react-icons/fi";
+import SectionHead from "../components/ui/SectionHead";
 import Reveal from "../components/ui/Reveal";
+import Note from "../components/ui/Note";
 import { person } from "../data/profile";
 import "./Contact.css";
 
 /**
- * There is no backend, so the form composes an email in the visitor's own
- * mail client (mailto:) with their message pre-filled. Nothing is stored.
+ * There's no backend, so the form composes the email in the visitor's own
+ * mail client (mailto:) with the message filled in. Nothing is stored.
  */
 export default function Contact() {
   const [values, setValues] = useState({ name: "", email: "", message: "" });
@@ -20,57 +22,52 @@ export default function Contact() {
     setErrors((er) => ({ ...er, [e.target.name]: undefined }));
   };
 
-  const validate = () => {
-    const next = {};
-    if (!values.name.trim()) next.name = "Please add your name.";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) next.email = "Please enter a valid email address.";
-    if (values.message.trim().length < 10) next.message = "A sentence or two, please (at least 10 characters).";
-    return next;
-  };
-
   const submit = (e) => {
     e.preventDefault();
-    const next = validate();
+    const next = {};
+    if (!values.name.trim()) next.name = "Your name, please.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) next.email = "That email address doesn't look quite right.";
+    if (values.message.trim().length < 10) next.message = "A sentence or two, please.";
     setErrors(next);
-    if (Object.keys(next).length) {
-      document.getElementById(`field-${Object.keys(next)[0]}`)?.focus();
+    const first = Object.keys(next)[0];
+    if (first) {
+      document.getElementById(`f-${first}`)?.focus();
       return;
     }
-    const subject = `Hello from ${values.name.trim()}`;
+    const subject = `A question from ${values.name.trim()}`;
     const body = `${values.message.trim()}\n\n— ${values.name.trim()} (${values.email.trim()})`;
     window.location.href = `mailto:${person.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setSent(true);
   };
 
-  const copyEmail = async () => {
+  const copy = async () => {
     try {
       await navigator.clipboard.writeText(person.email);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setTimeout(() => setCopied(false), 2200);
     } catch {
       window.location.href = `mailto:${person.email}`;
     }
   };
 
-  const field = (name, label, props = {}) => {
-    const Tag = props.as ?? "input";
-    const { as, ...rest } = props;
+  const field = (name, label, extra = {}) => {
+    const { as: Tag = "input", ...rest } = extra;
     return (
       <div className={`field${errors[name] ? " has-error" : ""}`}>
-        <label htmlFor={`field-${name}`} className="mono">
+        <label htmlFor={`f-${name}`} className="label">
           {label}
         </label>
         <Tag
-          id={`field-${name}`}
+          id={`f-${name}`}
           name={name}
           value={values[name]}
           onChange={update}
           aria-invalid={!!errors[name]}
-          aria-describedby={errors[name] ? `err-${name}` : undefined}
+          aria-describedby={errors[name] ? `e-${name}` : undefined}
           {...rest}
         />
         {errors[name] && (
-          <p id={`err-${name}`} className="field__error">
+          <p id={`e-${name}`} className="field__error">
             {errors[name]}
           </p>
         )}
@@ -79,27 +76,27 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="section contact" aria-labelledby="contact-title">
+    <section id="contact" className="section contact dark" aria-labelledby="contact-title">
       <div className="container">
-        <SectionHeader
+        <SectionHead
           id="contact-title"
-          index="05"
+          no="05"
           label="Contact"
           title={
             <>
-              Say <span className="serif accent">hello.</span>
+              Every good conversation starts with a <em>question.</em>
             </>
           }
-          intro="Questions about my work, an opportunity, or feedback on something I've built — I read every message."
+          kicker="Have an interesting problem, a product idea, or simply want to talk about engineering? Let's connect."
         />
 
         <div className="contact__grid">
           <Reveal className="contact__direct">
-            <p className="contact__label mono">Email</p>
-            <a className="contact__email" href={`mailto:${person.email}`}>
+            <p className="label">Write to</p>
+            <a className="contact__email link" href={`mailto:${person.email}`}>
               {person.email}
             </a>
-            <button type="button" className="contact__copy mono" onClick={copyEmail}>
+            <button type="button" className="contact__copy mono" onClick={copy}>
               {copied ? <FiCheck aria-hidden="true" /> : <FiCopy aria-hidden="true" />}
               {copied ? "Copied" : "Copy address"}
             </button>
@@ -107,7 +104,7 @@ export default function Contact() {
               {copied ? "Email address copied" : ""}
             </span>
 
-            <p className="contact__label mono">Elsewhere</p>
+            <p className="label contact__else">Or find me at</p>
             <ul className="contact__links">
               <li>
                 <a href={person.links.linkedin} target="_blank" rel="noopener noreferrer">
@@ -119,28 +116,38 @@ export default function Contact() {
                   GitHub <FiArrowUpRight aria-hidden="true" />
                 </a>
               </li>
+              <li>
+                <Link to="/resume">
+                  Résumé <FiArrowRight aria-hidden="true" />
+                </Link>
+              </li>
             </ul>
           </Reveal>
 
-          <Reveal as="form" className="contact__form" delay={100} noValidate onSubmit={submit}>
+          <Reveal as="form" delay={120} className="contact__form" noValidate onSubmit={submit}>
             <div className="contact__row">
-              {field("name", "Name", { autoComplete: "name", required: true })}
-              {field("email", "Email", { type: "email", autoComplete: "email", required: true })}
+              {field("name", "Your name", { autoComplete: "name" })}
+              {field("email", "Your email", { type: "email", autoComplete: "email" })}
             </div>
-            {field("message", "Message", { as: "textarea", rows: 5, required: true })}
+            {field("message", "Your question", { as: "textarea", rows: 5 })}
             <div className="contact__submit">
               <button type="submit" className="btn btn--primary">
-                <span>Compose email</span>
+                <span>Start a conversation</span>
                 <span className="btn__icon" aria-hidden="true">
-                  <FiArrowUpRight />
+                  <FiArrowRight />
                 </span>
               </button>
               <p className="contact__hint mono" aria-live="polite">
-                {sent ? "Your mail app should open with the message ready to send." : "Opens in your mail app — nothing is stored here."}
+                {sent ? "Your mail app should now be open, with the message ready." : "Opens your mail app. Nothing is stored here."}
               </p>
             </div>
+            <Note>No backend, no database: the form simply writes the email for you.</Note>
           </Reveal>
         </div>
+
+        <Reveal as="p" className="contact__promise">
+          I promise to pay attention.
+        </Reveal>
       </div>
     </section>
   );

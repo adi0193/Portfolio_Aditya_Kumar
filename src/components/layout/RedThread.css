@@ -1,0 +1,68 @@
+.rthread {
+  position: fixed;
+  left: clamp(14px, 1.6vw, 28px);
+  top: calc(var(--nav-h) + 40px);
+  bottom: 40px;
+  z-index: 40;
+  width: 12px;
+}
+
+.rthread__line {
+  position: absolute;
+  inset: 0 auto 0 5px;
+  width: 1px;
+  background: rgba(116, 63, 67, 0.2);
+}
+
+.rthread__fill {
+  position: absolute;
+  inset: 0;
+  background: var(--burgundy);
+  transform-origin: top;
+  transform: scaleY(0);
+}
+
+.rthread__knot {
+  position: absolute;
+  left: -4px;
+  width: 9px;
+  height: 9px;
+  margin-top: -4.5px;
+  border-radius: 50%;
+  border: 1px solid var(--burgundy);
+  background: var(--cream);
+  transition: background-color 0.3s, transform 0.3s var(--ease);
+}
+.rthread__knot.is-active {
+  background: var(--burgundy);
+  transform: scale(1.25);
+}
+
+.rthread__tip {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translate(-6px, -50%);
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--burgundy);
+  background: var(--cream);
+  padding: 2px 6px;
+  border: 1px solid var(--rule);
+  transition: opacity 0.25s, transform 0.3s var(--ease);
+}
+.rthread__knot:hover .rthread__tip {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+@media (max-width: 1279px) {
+  .rthread {
+    display: none;
+  }
+}

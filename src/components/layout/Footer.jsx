@@ -1,32 +1,70 @@
-import { person } from "../../data/profile";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { asides, closing, person } from "../../data/profile";
+import Note from "../ui/Note";
 import "./Footer.css";
 
 export default function Footer() {
+  const [n, setN] = useState(0);
   const year = new Date().getFullYear();
-  const socials = [
-    { label: "GitHub", href: person.links.github },
-    { label: "LinkedIn", href: person.links.linkedin },
-    { label: "X / Twitter", href: person.links.twitter },
-    { label: "Instagram", href: person.links.instagram },
-  ];
+
   return (
-    <footer className="footer">
-      <div className="container footer__inner">
-        <p className="footer__statement">
-          Built by hand with React and Vite. <span className="serif">Tested by the same person who wrote it.</span>
+    <footer className="footer dark dark--espresso">
+      <div className="container">
+        <p className="footer__closing">
+          <span className="label">The final observation</span>
+          {closing}
         </p>
-        <ul className="footer__links mono">
-          {socials.map((s) => (
-            <li key={s.label}>
-              <a href={s.href} target="_blank" rel="noopener noreferrer">
-                {s.label}
+
+        <div className="footer__grid">
+          <ul className="footer__links mono">
+            <li>
+              <a className="link" href={person.links.github} target="_blank" rel="noopener noreferrer">
+                GitHub
               </a>
             </li>
-          ))}
-        </ul>
-        <p className="footer__meta mono">
-          © {year} {person.name} · {person.location}
-        </p>
+            <li>
+              <a className="link" href={person.links.linkedin} target="_blank" rel="noopener noreferrer">
+                LinkedIn
+              </a>
+            </li>
+            <li>
+              <a className="link" href={person.links.twitter} target="_blank" rel="noopener noreferrer">
+                X / Twitter
+              </a>
+            </li>
+            <li>
+              <a className="link" href={person.links.instagram} target="_blank" rel="noopener noreferrer">
+                Instagram
+              </a>
+            </li>
+            <li>
+              <Link className="link" to="/resume">
+                Résumé
+              </Link>
+            </li>
+          </ul>
+
+          <button
+            type="button"
+            className="footer__aside mono"
+            onClick={() => setN((v) => (v + 1) % asides.length)}
+            aria-live="polite"
+          >
+            {asides[n]}
+          </button>
+        </div>
+
+        <div className="footer__base mono">
+          <span>
+            © {year} {person.name}
+          </span>
+          <span>Set in Cormorant Garamond, Inter &amp; IBM Plex Mono. Built with React.</span>
+        </div>
+        <Note>
+          No analytics, no trackers, no cookies. The only thing this site remembers is whether you switched on
+          observation mode — and only in your own browser.
+        </Note>
       </div>
     </footer>
   );

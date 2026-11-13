@@ -9,15 +9,17 @@
   align-items: flex-end;
   flex-wrap: wrap;
   gap: var(--space-5);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-7);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--ink);
 }
 
+.resume-page__kicker {
+  margin-top: var(--space-5);
+}
 .resume-page__title {
   font-size: var(--step-4);
-  margin-top: var(--space-4);
-  font-family: var(--font-serif);
   font-style: italic;
-  font-weight: 400;
 }
 
 .resume-page__frame {
@@ -26,10 +28,12 @@
 }
 
 .resume-page__sheet {
-  margin-bottom: var(--space-5);
-  border-radius: var(--radius-m);
-  overflow: hidden;
-  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.9);
+  margin-bottom: var(--space-6);
+  border: 1px solid var(--rule-strong);
+  box-shadow:
+    0 30px 60px -40px rgba(36, 27, 24, 0.6),
+    8px 8px 0 -1px var(--cream),
+    8px 8px 0 0 var(--rule);
 }
 .resume-page__sheet canvas {
   max-width: 100%;
@@ -42,6 +46,6 @@
   color: var(--muted);
 }
 .resume-page__status a {
-  color: var(--accent);
+  color: var(--burgundy);
   text-decoration: underline;
 }
